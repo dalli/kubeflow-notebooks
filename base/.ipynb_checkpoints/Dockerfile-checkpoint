@@ -50,15 +50,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# install docker
-RUN mkdir -p /etc/apt/keyrings
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-RUN echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN apt-get -yq update \
-  && apt-get install -yq docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
 # install - s6 overlay
 RUN export GNUPGHOME=/tmp/ \
  && curl -sL "https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}-installer" -o /tmp/s6-overlay-${S6_VERSION}-installer \
