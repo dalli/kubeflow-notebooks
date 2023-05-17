@@ -1,7 +1,6 @@
 TAG ?= $(shell git describe --tags --always --dirty)
 REGISTRY ?= kubeflownotebookswg
 
-
 .PHONY: docker-build
 docker-build: build-jupyter-pytorch-full build-jupyter-tensorflow-full build-jupyter-scipy build-codeserver-python build-rstudio-tidyverse
 		@echo "\nAll notebook-server images have been successfully built...\n"
@@ -31,6 +30,16 @@ build-jupyter-tensorflow-full-cpu:
 build-jupyter-tensorflow-full-cuda:
 	@echo "\nBuilding jupyter-tensorflow-full-cuda image...\n"
 	$(MAKE) docker-build-cuda -C jupyter-tensorflow-full TAG=${TAG}
+
+.PHONY: build-jupyter-xgboost-cuda
+build-jupyter-xgboost-cuda:
+	@echo "\nBuilding jupyter-xgboost-cuda image...\n"
+	$(MAKE) docker-build-cuda -C jupyter-xgboost TAG=${TAG}
+
+.PHONY: build-jupyter-lightgbm-cuda
+build-jupyter-lightgbm-cuda:
+	@echo "\nBuilding jupyter-lightgbm-cuda image...\n"
+	$(MAKE) docker-build-cuda -C jupyter-lightgbm TAG=${TAG}
 
 .PHONY: build-jupyter-scipy
 build-jupyter-scipy:
@@ -66,6 +75,12 @@ docker-push:
 
 	@echo "\nPushing jupyter image...\n"
 	$(MAKE) docker-push -C jupyter
+
+	@echo "\nPushing jupyter-xgboost-cuda image...\n"
+	$(MAKE) docker-push-cuda -C jupyter-xgboost
+
+	@echo "\nPushing jupyter-lightgbm-cuda image...\n"
+	$(MAKE) docker-push-cuda -C jupyter-lightgbm
 
 	@echo "\nPushing jupyter-scipy image...\n"
 	$(MAKE) docker-push -C jupyter-scipy
