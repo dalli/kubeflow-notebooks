@@ -10,7 +10,7 @@ ENV SHELL /bin/bash
 
 # args - software versions
 ARG KUBECTL_ARCH="amd64"
-ARG KUBECTL_VERSION=v1.21.9
+ARG KUBECTL_VERSION=v1.21.0
 ARG S6_ARCH="amd64"
  # renovate: datasource=github-tags depName=just-containers/s6-overlay versioning=loose
 ARG S6_VERSION=v2.2.0.3
@@ -50,15 +50,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# install docker
-RUN mkdir -p /etc/apt/keyrings
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-RUN echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN apt-get -yq update \
-  && apt-get install -yq docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
 # install - s6 overlay
 RUN export GNUPGHOME=/tmp/ \
  && curl -sL "https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}-installer" -o /tmp/s6-overlay-${S6_VERSION}-installer \
@@ -83,7 +74,7 @@ RUN useradd -M -s /bin/bash -N -u ${NB_UID} ${NB_USER} \
  && chown -R ${NB_USER}:users /usr/local/bin \
  && chown -R ${NB_USER}:users /etc/s6
 
-RUN echo "jovyan ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/jovyan
+RUN echo "jovyan ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/namu
 
 # set time-zone  ASIA/SEOUL
 RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
@@ -99,7 +90,7 @@ ENV LC_ALL en_US.UTF-8
 RUN localedef -f UTF-8 -i ko_KR ko_KR.UTF-8
 ENV LANG ko_KR.UTF-8
 ENV LC_ALL ko_KR.UTF-8
-ENV LANGUAGE en_US.UTF-8
+ENV LANGUAGE ko_KR.UTF-8
 ENV PYTHONIOENCODING=UTF-8
 
 USER $NB_UID
