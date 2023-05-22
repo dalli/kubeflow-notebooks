@@ -6,6 +6,8 @@ docker-build-codeserver:
 
 docker-build: docker-build-codeserver
 	docker build -t ${REGISTRY}/codeserver-python:${TAG} --build-arg BASE_IMG=${REGISTRY}/codeserver:${TAG} -f Dockerfile . 
+	docker build -t ${REGISTRY}/codeserver-python-cuda:${TAG} --build-arg BASE_IMG=${REGISTRY}/codeserver-cuda:${TAG} -f Dockerfile . 
 
 docker-push:
 	docker push ${REGISTRY}/codeserver-python:${TAG}
+	docker push ${REGISTRY}/codeserver-python-cuda:${TAG}
