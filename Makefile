@@ -2,7 +2,7 @@ TAG ?= $(shell git describe --tags --always --dirty)
 REGISTRY ?= kubeflownotebookswg
 
 .PHONY: docker-build
-docker-build: build-jupyter-pytorch-full build-jupyter-tensorflow-full build-jupyter-scipy build-codeserver-python build-rstudio-tidyverse
+docker-build: build-jupyter-pytorch-full build-jupyter-tensorflow-full build-jupyter-scipy build-codeserver-python build-rstudio-tidyverse build-jupyter-xgboost-cuda build-jupyter-lightgbm-cuda
 		@echo "\nAll notebook-server images have been successfully built...\n"
 
 .PHONY: build-jupyter-pytorch-full
