@@ -37,6 +37,9 @@ RUN curl -sL "https://github.com/conda-forge/miniforge/releases/download/${MINIF
     python=${PYTHON_VERSION} \
     conda=${MINIFORGE_VERSION:0:-2} \
     pip=${PIP_VERSION} \
+    ipykernel \
+    ipywidgets \
+    ipympl \
  && conda update -y -q --all \
  && conda clean -a -f -y \
  && chown -R ${NB_USER}:users ${CONDA_DIR} \
