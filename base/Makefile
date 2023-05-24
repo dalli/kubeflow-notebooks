@@ -4,7 +4,7 @@ REGISTRY ?= kubeflownotebookswg
 docker-build-cpu:
 	docker build -t ${REGISTRY}/base:${TAG} -f cpu.Dockerfile .
 
-docker-buid-cuda:
+docker-build-cuda:
 	docker build -t ${REGISTRY}/base-cuda:${TAG} -f cuda.Dockerfile .
 
 docker-push-cpu:
